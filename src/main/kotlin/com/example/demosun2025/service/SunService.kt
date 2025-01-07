@@ -6,10 +6,10 @@ import net.time4j.PlainTimestamp
 import net.time4j.TemporalType
 import net.time4j.calendar.astro.SolarTime
 import net.time4j.tz.TZID
+import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
-@org.springframework.stereotype.Service
-
+@Service
 class SunService {
     fun getSunrise(id: TZID, plainDate: PlainDate, location: com.example.demosun2025.model.Location): LocalDateTime? {
         val amsterdam: SolarTime = SolarTime.ofLocation(location.latitude!!, location.longitude!!)

@@ -6,11 +6,10 @@ import net.time4j.PlainTimestamp
 import net.time4j.TemporalType
 import net.time4j.calendar.astro.LunarTime
 import net.time4j.tz.TZID
+import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
-
-@org.springframework.stereotype.Service
-
+@Service
 class MoonService {
     fun getMoonrise(id: TZID, plainDate: PlainDate, location: com.example.demosun2025.model.Location): LocalDateTime? {
         val amsterdam: LunarTime = LunarTime.ofLocation(id, location.latitude!!, location.longitude!!)
