@@ -15,16 +15,14 @@ import java.time.LocalDate
 
 @RestController
 @RequestMapping(value = ["moons"])
-class MoonRestController(moonService: MoonService, clock: Clock) {
-    private val moonService: MoonService = moonService
-    private val clock: Clock = clock
+class MoonRestController(private val moonService: MoonService, private val clock: Clock) {
 
     @GetMapping(value = ["/today"])
     fun today(
         @RequestParam(value = "tz", defaultValue = "Europe/Amsterdam") tz: String?,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): Moon {
-        val id: TZID = TZID { tz }
+        val id = TZID { tz }
         val now: LocalDate = LocalDate.now(clock)
 
         return getMoon(location, id, now)
@@ -37,8 +35,8 @@ class MoonRestController(moonService: MoonService, clock: Clock) {
         @RequestParam(value = "interval", defaultValue = "DAY") interval: Interval,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): List<Moon> {
-        val id: TZID = TZID { tz }
-        val moons: MutableList<Moon> = ArrayList<Moon>()
+        val id = TZID { tz }
+        val moons: MutableList<Moon> = ArrayList()
 
         when (interval) {
             Interval.DAY -> {
@@ -73,8 +71,6 @@ class MoonRestController(moonService: MoonService, clock: Clock) {
                     ++i
                 }
             }
-
-            else -> {}
         }
 
         return moons
@@ -87,8 +83,8 @@ class MoonRestController(moonService: MoonService, clock: Clock) {
         @RequestParam(value = "interval", defaultValue = "DAY") interval: Interval,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): List<Moon> {
-        val id: TZID = TZID { tz }
-        val moons: MutableList<Moon> = ArrayList<Moon>()
+        val id = TZID { tz }
+        val moons: MutableList<Moon> = ArrayList()
 
         when (interval) {
             Interval.DAY -> {
@@ -123,8 +119,6 @@ class MoonRestController(moonService: MoonService, clock: Clock) {
                     ++i
                 }
             }
-
-            else -> {}
         }
 
         return moons

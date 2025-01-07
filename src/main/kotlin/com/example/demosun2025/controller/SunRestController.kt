@@ -14,15 +14,14 @@ import java.time.LocalDate
 
 @RestController
 @RequestMapping(value = ["suns"])
-class SunRestController(sunService: SunService) {
-    private val sunService: SunService = sunService
+class SunRestController(private val sunService: SunService) {
 
     @GetMapping(value = ["/today"])
     fun today(
         @RequestParam(value = "tz", defaultValue = "Europe/Amsterdam") tz: String?,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): Sun {
-        val id: TZID = TZID { tz }
+        val id = TZID { tz }
         val now: LocalDate = LocalDate.now()
 
         return getSun(location, id, now)
@@ -35,7 +34,7 @@ class SunRestController(sunService: SunService) {
         @RequestParam(value = "interval", defaultValue = "0") interval: Interval,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): List<Sun> {
-        val id: TZID = TZID { tz }
+        val id = TZID { tz }
         val suns: MutableList<Sun> = ArrayList()
 
         when (interval) {
@@ -71,8 +70,6 @@ class SunRestController(sunService: SunService) {
                     ++i
                 }
             }
-
-            else -> {}
         }
 
         return suns
@@ -93,7 +90,7 @@ class SunRestController(sunService: SunService) {
         @RequestParam(value = "interval", defaultValue = "0") interval: Interval,
         @RequestParam(value = "location", defaultValue = "52.379189, 4.899431") location: Location
     ): List<Sun> {
-        val id: TZID = TZID { tz }
+        val id = TZID { tz }
         val suns: MutableList<Sun> = ArrayList()
 
         when (interval) {
@@ -130,7 +127,6 @@ class SunRestController(sunService: SunService) {
                 }
             }
 
-            else -> {}
         }
 
         return suns
