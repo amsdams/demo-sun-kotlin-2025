@@ -52,7 +52,7 @@ class SunRestController(private val sunService: SunService) {
             Interval.MONTH -> {
                 var i = 0
                 while (i < amount) {
-                    val now: LocalDate = LocalDate.now().plusDays(i.toLong())
+                    val now: LocalDate = LocalDate.now().plusMonths(i.toLong())
 
                     val sun = getSun(location, id, now)
                     suns.add(sun)
@@ -63,7 +63,7 @@ class SunRestController(private val sunService: SunService) {
             Interval.YEAR -> {
                 var i = 0
                 while (i < amount) {
-                    val now: LocalDate = LocalDate.now().plusDays(i.toLong())
+                    val now: LocalDate = LocalDate.now().plusYears(i.toLong())
 
                     val sun = getSun(location, id, now)
                     suns.add(sun)
@@ -73,14 +73,6 @@ class SunRestController(private val sunService: SunService) {
         }
 
         return suns
-    }
-
-    private fun getSun(location: Location, id: TZID, now: LocalDate): Sun {
-        val plainDate: PlainDate = PlainDate.from(now)
-        return Sun(
-            now, sunService.getSunrise(id, plainDate, location),
-            sunService.getSunSet(id, plainDate, location), id, location
-        )
     }
 
     @GetMapping(value = ["/past"])
@@ -108,7 +100,7 @@ class SunRestController(private val sunService: SunService) {
             Interval.MONTH -> {
                 var i = 0
                 while (i < amount) {
-                    val now: LocalDate = LocalDate.now().minusDays(i.toLong())
+                    val now: LocalDate = LocalDate.now().minusMonths(i.toLong())
 
                     val sun = getSun(location, id, now)
                     suns.add(sun)
@@ -119,16 +111,23 @@ class SunRestController(private val sunService: SunService) {
             Interval.YEAR -> {
                 var i = 0
                 while (i < amount) {
-                    val now: LocalDate = LocalDate.now().minusDays(i.toLong())
+                    val now: LocalDate = LocalDate.now().minusYears(i.toLong())
 
                     val sun = getSun(location, id, now)
                     suns.add(sun)
                     ++i
                 }
             }
-
         }
 
         return suns
+    }
+
+    private fun getSun(location: Location, id: TZID, now: LocalDate): Sun {
+        val plainDate: PlainDate = PlainDate.from(now)
+        return Sun(
+            now, sunService.getSunrise(id, plainDate, location),
+            sunService.getSunSet(id, plainDate, location), id, location
+        )
     }
 }
